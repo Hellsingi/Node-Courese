@@ -1,4 +1,5 @@
 const usersRepo = require('./user.memory.repository');
+const taskRepo = require('../tasks/task.memory.repository');
 
 const getAll = () => usersRepo.getAll();
 
@@ -12,6 +13,12 @@ const getById = async (id) => {
 };
 
 const deleteUser = async (id) => {
+  const taskDb = await taskRepo.getAll();
+  taskDb.forEach((task) => {
+    if (task.userId === id) {
+      taskRepo.deleteTask(task.id);
+    }
+  });
   usersRepo.deleteUser(id);
 };
 
