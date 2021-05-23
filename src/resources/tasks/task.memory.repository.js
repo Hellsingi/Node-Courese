@@ -1,4 +1,6 @@
-const db = [];
+const Task = require('./task.model');
+
+const db = [new Task()];
 
 const getAll = async () => db;
 
@@ -8,36 +10,46 @@ const getById = async (id) => db.find((task) => task.id === id);
 
 const update = async (task, updateInfo) => {
   const idx = db.indexOf(task);
-  const {
-    order: taskOrder,
-    description: taskDescription,
-    title: taskTitle,
-    userId: taskUserId,
-    boardId: taskBoardId,
-    columnId: taskColumnId,
-  } = updateInfo;
-
-  const newObject = {
-    order: taskOrder || task.order,
-    description: taskDescription || task.description,
-    userId: taskUserId || task.userId,
-    boardId: taskBoardId || task.boardId,
-    columnId: taskColumnId || task.columnId,
-    title: taskTitle || task.title,
-  };
-
-  const updateTask = { ...task, ...newObject };
-
+  const updateTask = { ...task, ...updateInfo };
   db.splice(idx, 1, updateTask);
   return updateTask;
 };
 
 const deleteTask = async (id) => {
   const task = await getById(id);
-  if(!task) return false;
+  if (!task) return false;
   const idx = db.indexOf(task);
   db.splice(idx, 1);
   return true;
 };
 
-module.exports = { getAll, save, getById, update, deleteTask };
+const removeUsersTasks = async (id) => {
+  const usersTasks = db.filter(({ userId }) => userId === id);
+  usersTasks.forEach((task) => {
+    update(task, {
+      userId: null,
+    });
+  });
+
+  return 'Deleted';
+};
+
+const removeBoardTasks = async (id) => {
+  const boardTasks = db.filter(({ boardId }) => boardId === id);
+
+  await Promise.allSettled(
+    boardTasks.map(({ id: boardId }) => deleteTask(boardId))
+  );
+
+  return 'Deleted';
+};
+
+module.exports = {
+  getAll,
+  save,
+  getById,
+  update,
+  deleteTask,
+  removeUsersTasks,
+  removeBoardTasks,
+};

@@ -29,8 +29,8 @@ router.put('/:id', async (req, res) => {
 });
 
 router.delete('/:id', async (req, res) => {
-  boardsService.deleteBoard(req.params.id);
-  res.status(204).end();
+  const deletedBoard =await boardsService.deleteBoard(req.params.id);
+  res.status(204).json(deletedBoard);
 });
 
 module.exports = router;

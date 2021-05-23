@@ -1,4 +1,6 @@
-const db = [];
+const User = require('./user.model');
+
+const db = [new User()];
 
 const getAll = async () => db;
 
@@ -10,18 +12,12 @@ const deleteUser = async (id) => {
   const user = await getById(id);
   const idx = db.indexOf(user);
   db.splice(idx, 1);
+  return user || {};
 };
 
 const update = async (user, updateInfo) => {
   const idx = db.indexOf(user);
-  const { name: userName, login: userLogin } = updateInfo;
-
-  const newObject = {
-    name: userName ||  user.name,
-    login: userLogin ||  user.login,
-  }
-
-  const updateUser = { ...user,...newObject}
+  const updateUser = { ...user, ...updateInfo };
 
   db.splice(idx, 1, updateUser);
   return updateUser;

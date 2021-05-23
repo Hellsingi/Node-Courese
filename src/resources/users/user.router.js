@@ -4,7 +4,6 @@ const usersService = require('./user.service');
 
 router.get('/', async (req, res) => {
   const users = await usersService.getAll();
-  // map user fields to exclude secret fields like "password"
   res.json(users.map(User.toResponse));
 });
 
@@ -20,8 +19,8 @@ router.get('/:userId', async (req, res) => {
 });
 
 router.delete('/:userId', async (req, res) => {
-  await usersService.deleteUser(req.params.userId);
-  res.status(204).end();
+  const deletedUser = await usersService.deleteUser(req.params.userId);
+  res.status(204).json(User.toResponse(deletedUser));
 });
 
 router.put('/:userId', async (req, res) => {
