@@ -4,6 +4,18 @@ const db = [new Task()];
 
 const getAll = async () => db;
 
+
+/**
+ * Save new task
+ * @param {string} title Task title
+ * @param {number} order Task title
+ * @param {description} description Task description
+ * @param {userId} userId Task userId
+ * @param {boardId} boardId boardId boardId
+ * @param {columnId} columnId Task columnId
+ * @returns {Task}
+ */
+
 const save = async (data) => db.push(data);
 
 const getById = async (id) => db.find((task) => task.id === id);
