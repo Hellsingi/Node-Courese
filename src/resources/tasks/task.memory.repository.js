@@ -16,7 +16,7 @@ const getAll = async () => db;
  * @returns {Task}
  */
 
-const save = async (data) => db.push(data);
+const saveTask = async (data) => db.push(data);
 
 const getById = async (id) => db.find((task) => task.id === id);
 
@@ -58,7 +58,7 @@ const removeBoardTasks = async (id) => {
 
 module.exports = {
   getAll,
-  save,
+  saveTask,
   getById,
   update,
   deleteTask,
