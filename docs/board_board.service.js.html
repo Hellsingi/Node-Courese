@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +7,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> User</title>
+  <title> board/board.service.js</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -73,341 +75,78 @@
         <div class="core" id="main-content-wrapper">
             <div class="content">
                 <header class="page-title">
-                    <p>Class</p>
-                    <h1>User</h1>
+                    <p>Source</p>
+                    <h1>board/board.service.js</h1>
                 </header>
                 
 
 
 
-
-<section>
-
-<header>
-    
-        <h2><span class="attribs"><span class="type-signature"></span></span>
-            <span class="ancestors"><a href="module-user_model.html">user/model</a>~</span>User<span class="signature">()</span><span class="type-signature"></span></h2>
-        
-            <div class="class-description">Class representing a user</div>
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-            <div class='vertical-section'>
-                <div class="members">
-                    <div class="member">
-                        <div class=name>
-                            <span class="tag">Constructor</span>
-                        </div>
-                        
-
-
-    
-    <h4 class="name" id="~User">
-        <a class="href-link" href="#~User">#</a>
-        
-        <span class="code-name">
-            
-                new User<span class="signature">()</span><span class="type-signature"></span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="users_user.model.js.html" class="button">View Source</a>
-            <span>
-                <a href="users_user.model.js.html">users/user.model.js</a>, <a href="users_user.model.js.html#line19">line 19</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                    </div>
-                </div>
-            </div>
-        
-    
-    </div>
-    
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <div class='vertical-section'>
-            <h1>Methods</h1>
-            <div class="members">
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id=".toResponse">
-        <a class="href-link" href="#.toResponse">#</a>
-        
-            
-                <span class='tag'>static</span>
-            
-        
-        <span class="code-name">
-            
-                toResponse<span class="signature">(userInstance)</span><span class="type-signature"> &rarr; {Object}</span>
-            
-        </span>
-    </h4>
     
-
-    
-    
-    <div class="description">
-        Strips provided userInstance to basic properties and returns a JS object without password
-    </div>
-    
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>userInstance</code></td>
-  
-
-  <td class="type">
-  
-      
-<span class="param-type">User</span>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">user instance</td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="users_user.model.js.html" class="button">View Source</a>
-            <span>
-                <a href="users_user.model.js.html">users/user.model.js</a>, <a href="users_user.model.js.html#line38">line 38</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class='columns method-parameter'>
-        <div class="column is-2"><label>Returns:</label></div>
-        <div class="column is-10">
-            
-                    
-
-<div class="columns">
-    
-    <div class='param-desc column is-7'>simple JavaScript object without password field</div>
-    
-    
-    <div class='column is-5 has-text-left'>
-        <label>Type: </label>
-        
-<span class="param-type">Object</span>
-
-
-    </div>
-    
-</div>
-
-                
-        </div>
-    </div>
-
-
-
-
-</div>
-            
-            </div>
-        </div>
-    
-
-    
-
-    
-</article>
-
-</section>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Board service
+ * @module board/service
+ */
+
+const boardsRepo = require('./board.memory.repository');
+const tasksRepo = require('../tasks/task.memory.repository');
+
+/**
+ * Calls repository to retrieve all boards
+ * @returns {Board[]} return to array of boards
+ * {@link module:board/repository}
+ */
+
+const getAll = () => boardsRepo.getAll();
+
+/**
+ * Forwards a newly-created Board instance to repository
+ * @param {Object} props collection of key: value pairs
+ * @returns {Promise&lt;Board>} promise resolving to board
+ * {@link module:board/repository}
+ */
+
+const save = (data) => boardsRepo.save(data);
+
+/**
+ * Calls board/repository to retrieve one board by id
+ * @param {String} id board id
+ * @returns {Promise&lt;Board>} promise resolving to board
+ * {@link module:board/repository}
+ */
+
+const getById = (id) => boardsRepo.getById(id);
+
+/**
+ * Forwards new props that should be applied to board with id to repository
+ * @param {Object} Boardprops collection of key: value pairs
+ * @param {Object} Boardprops collection of key: value pairs for update
+ * @returns {Promise&lt;Board>} promise resolving to Board
+ * {@link module:board/repository}
+ */
+
+const update = (board, newBoard) => boardsRepo.update(board, newBoard);
+
+/**
+ * Calls repository to remove board and task service to remove all tasks associated with removed board
+ * @param {String} id board id
+ * @returns {Promise&lt;Board>} promise resolving to Board
+ * {@link module:board/repository}
+ * {@link module:task/service}
+ */
+
+const deleteBoard = async (id) => {
+  tasksRepo.removeBoardTasks(id);
+
+  return boardsRepo.deleteBoard(id);
+};
+
+module.exports = { getAll, save, getById, update, deleteBoard };
+</code></pre>
+        </article>
+    </section>
 
 
 

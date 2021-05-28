@@ -1,4 +1,19 @@
+/**
+ * Board model
+ * @module board/model
+ */
+
 const uuid = require('uuid').v4;
+
+/**
+ * Board instance type
+ * @typedef {Object} Board
+ * @property {String} id board id
+ * @property {String} title board title
+ * @property {Array<Column>} columns an array of Column instances
+ */
+
+ /** Class representing a board */
 
 class Board {
   constructor({
