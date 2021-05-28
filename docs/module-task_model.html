@@ -5,7 +5,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> user/model</title>
+  <title> task/model</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -74,7 +74,7 @@
             <div class="content">
                 <header class="page-title">
                     <p>Module</p>
-                    <h1>user/model</h1>
+                    <h1>task/model</h1>
                 </header>
                 
 
@@ -95,7 +95,7 @@
     <div class="container-overview">
     
         
-            <div class="description">User model</div>
+            <div class="description">Task model</div>
         
 
         
@@ -147,9 +147,9 @@
 
     
         <p class="tag-source">
-            <a href="users_user.model.js.html" class="button">View Source</a>
+            <a href="tasks_task.model.js.html" class="button">View Source</a>
             <span>
-                <a href="users_user.model.js.html">users/user.model.js</a>, <a href="users_user.model.js.html#line3">line 3</a>
+                <a href="tasks_task.model.js.html">tasks/task.model.js</a>, <a href="tasks_task.model.js.html#line1">line 1</a>
             </span>
         </p>
     
@@ -188,7 +188,7 @@
         <h3 class="subsection-title">Classes</h3>
 
         <dl>
-            <dt><a href="module-user_model.html#~User">User</a></dt>
+            <dt><a href="module-task_model.html#~Task">Task</a></dt>
             <dd></dd>
         </dl>
     
@@ -218,11 +218,11 @@
 
     </span>
 
-<h4 class="name" id="~User">
-    <a class="href-link" href="#~User">#</a>
+<h4 class="name" id="~Task">
+    <a class="href-link" href="#~Task">#</a>
     
     <span class="code-name">
-        User
+        Task
     </span>
     
 </h4>
@@ -231,7 +231,7 @@
 
 
 <div class="description">
-    User instance type
+    Task instance type
 </div>
 
 
@@ -280,14 +280,14 @@
 
     
 
-    <td class="description last">user id</td>
+    <td class="description last">id</td>
 </tr>
 
         
             
 <tr class="deep-level-0">
     
-        <td class="name"><code>name</code></td>
+        <td class="name"><code>title</code></td>
     
 
     <td class="type">
@@ -303,14 +303,14 @@
 
     
 
-    <td class="description last">user name</td>
+    <td class="description last">title</td>
 </tr>
 
         
             
 <tr class="deep-level-0">
     
-        <td class="name"><code>login</code></td>
+        <td class="name"><code>description</code></td>
     
 
     <td class="type">
@@ -326,20 +326,23 @@
 
     
 
-    <td class="description last">user login</td>
+    <td class="description last">description</td>
 </tr>
 
         
             
 <tr class="deep-level-0">
     
-        <td class="name"><code>password</code></td>
+        <td class="name"><code>userId</code></td>
     
 
     <td class="type">
     
         
 <span class="param-type">String</span>
+|
+
+<span class="param-type">null</span>
 
 
     
@@ -349,7 +352,82 @@
 
     
 
-    <td class="description last">user password</td>
+    <td class="description last">id of the user assigned to this instance</td>
+</tr>
+
+        
+            
+<tr class="deep-level-0">
+    
+        <td class="name"><code>boardId</code></td>
+    
+
+    <td class="type">
+    
+        
+<span class="param-type">String</span>
+|
+
+<span class="param-type">null</span>
+
+
+    
+    </td>
+
+    
+
+    
+
+    <td class="description last">id of the board this instance belongs to</td>
+</tr>
+
+        
+            
+<tr class="deep-level-0">
+    
+        <td class="name"><code>columnId</code></td>
+    
+
+    <td class="type">
+    
+        
+<span class="param-type">String</span>
+|
+
+<span class="param-type">null</span>
+
+
+    
+    </td>
+
+    
+
+    
+
+    <td class="description last">id of the column this instance belongs to</td>
+</tr>
+
+        
+            
+<tr class="deep-level-0">
+    
+        <td class="name"><code>order</code></td>
+    
+
+    <td class="type">
+    
+        
+<span class="param-type">Number</span>
+
+
+    
+    </td>
+
+    
+
+    
+
+    <td class="description last">order of this instance within its Column</td>
 </tr>
 
         
@@ -392,9 +470,9 @@
 
     
         <p class="tag-source">
-            <a href="users_user.model.js.html" class="button">View Source</a>
+            <a href="tasks_task.model.js.html" class="button">View Source</a>
             <span>
-                <a href="users_user.model.js.html">users/user.model.js</a>, <a href="users_user.model.js.html#line8">line 8</a>
+                <a href="tasks_task.model.js.html">tasks/task.model.js</a>, <a href="tasks_task.model.js.html#line8">line 8</a>
             </span>
         </p>
     
