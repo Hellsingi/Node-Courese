@@ -7,12 +7,6 @@ const getAll = () => usersRepo.getAllUsers();
 
 const save = (data: IUserProps) => usersRepo.createUser(data);
 
-// const getById = async (id: string): Promise<IUserProps | {}> => {
-//   const user = await usersRepo.getById(id);
-//   if (!user) return {};
-
-//   return user;
-// };
 const getById = (id: string) => usersRepo.getById(id);
 
 const deleteUser = async (id: string) => {

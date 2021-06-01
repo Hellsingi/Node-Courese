@@ -34,4 +34,4 @@ router.put('/:userId', async (req, res) => {
   res.json(User.toResponse(updateUser));
 });
 
-module.exports = router;
+export default router;

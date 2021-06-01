@@ -36,4 +36,4 @@ router.delete('/:id', async (req, res) => {
   res.status(StatusCodes.NO_CONTENT).json(deletedBoard);
 });
 
-module.exports = router;
+export default router;
