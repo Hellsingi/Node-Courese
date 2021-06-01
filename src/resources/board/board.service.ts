@@ -1,8 +1,6 @@
 import { IBoardProps } from './board.types';
 import * as boardsRepo from './board.memory.repository';
-// import * as tasksRepo from '../tasks/task.memory.repository';
-
-const tasksRepo = require('../tasks/task.memory.repository');
+import * as tasksRepo from '../tasks/task.memory.repository';
 
 const getAll = () => boardsRepo.getAllBoards();
 
