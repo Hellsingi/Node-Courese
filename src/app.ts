@@ -6,11 +6,14 @@ import YAML from 'yamljs'
 import userRouter from './resources/users/user.router';
 import boardRouter from './resources/board/board.router';
 import taskRouter from './resources/tasks/task.router';
+import { httpLogger } from './middleware/http-logger';
 
 const app = express();
 const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
 
 app.use(express.json());
+
+app.use(httpLogger);
 
 app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
