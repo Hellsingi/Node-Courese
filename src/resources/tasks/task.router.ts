@@ -1,7 +1,8 @@
-import { Request, Response, Router } from 'express';
+import { Request, Response, Router, NextFunction } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { Task } from './task.model';
 import * as tasksService from './task.service';
+import { ExtendedError } from '../../logger/logger';
 
 const router = Router({ mergeParams: true });
 // const router = require('express').Router({ mergeParams: true });
@@ -22,14 +23,18 @@ router.post('/', async (req: Request, res: Response) => {
   res.status(StatusCodes.CREATED).json(task);
 });
 
-router.get('/:taskId', async (req: Request, res: Response) => {
-  const { taskId } = req.params;
-  const task = await tasksService.getById(taskId as string);
+router.get('/:taskId', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { taskId } = req.params;
+    const task = await tasksService.getById(taskId as string);
 
-  if (!task) {
-    res.status(StatusCodes.NOT_FOUND).send({ message: "task doesn't found" });
-  } else {
-    res.status(StatusCodes.OK).json(task);
+    if (!task) {
+      throw new ExtendedError(StatusCodes.NOT_FOUND, "Task not found.");
+    } else {
+      res.status(StatusCodes.OK).json(task);
+    }
+  } catch (err) {
+    next(err);
   }
 });
 

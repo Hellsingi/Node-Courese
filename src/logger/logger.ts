@@ -48,7 +48,7 @@ const logger = createLogger({
 
 const errorLogger = (error: IErrorObject, res?: Response) => {
   if (error.error instanceof ExtendedError) {
-    logger.error('error', {
+    logger.log('error', {
       "ID": uuid(),
       "ERROR DATE": new Date(),
       "ERROR": error.error.msg,
@@ -56,7 +56,7 @@ const errorLogger = (error: IErrorObject, res?: Response) => {
     })
     res?.sendStatus(error.error.statusCode);
   } else {
-    logger.error('error', {
+    logger.log('error', {
       "ID": uuid(),
       "ERROR DATE": new Date(),
       "ERROR": error.error.message,
@@ -67,7 +67,7 @@ const errorLogger = (error: IErrorObject, res?: Response) => {
 };
 
 const exceptionLogger = (error: Error) => {
-  logger.error('error', {
+  logger.log('error', {
     "Status": "SYSTEM CRASHED",
     "ID": uuid(),
     "ERROR MESSAGE": error.message,
