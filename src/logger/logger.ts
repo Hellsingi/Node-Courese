@@ -48,20 +48,20 @@ const logger = createLogger({
 
 const errorLogger = (error: IErrorObject, res?: Response) => {
   if (error.error instanceof ExtendedError) {
-    logger.log('error', {
-      "ID": uuid(),
-      "ERROR DATE": new Date(),
-      "ERROR": error.error.msg,
-      "STATUS CODE": error.error.statusCode,
-    })
+    logger.error(`
+      "ID": ${uuid()},
+      "ERROR DATE": ${new Date()},
+      "ERROR": ${error.error.msg},
+      "STATUS CODE": ${error.error.statusCode},
+    `)
     res?.sendStatus(error.error.statusCode);
   } else {
-    logger.log('error', {
-      "ID": uuid(),
-      "ERROR DATE": new Date(),
-      "ERROR": error.error.message,
-      "BODY": error.error
-    })
+    logger.error(`
+      "ID": ${uuid()},
+      "ERROR DATE": ${new Date()},
+      "ERROR": ${error.error.message},
+      "BODY": ${error.error}
+    `)
     res?.sendStatus(500);
   }
 };
