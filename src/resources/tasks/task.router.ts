@@ -1,10 +1,10 @@
-import { Request, Response } from 'express';
+import { Request, Response, Router } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { Task } from './task.model';
 import * as tasksService from './task.service';
 
-// const router = express.Router({ mergeParams: true });
-const router = require('express').Router({ mergeParams: true });
+const router = Router({ mergeParams: true });
+// const router = require('express').Router({ mergeParams: true });
 
 router.get('/', async (_req: Request, res: Response) => {
   const tasks = await tasksService.getAll();
