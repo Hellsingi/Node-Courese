@@ -45,4 +45,4 @@ process.on('unhandledRejection', (error: Error) => {
   errorHandlerMiddleware({ error });
 })
 
-module.exports = app;
+export default app;

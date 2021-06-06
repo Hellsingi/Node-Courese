@@ -1,6 +1,5 @@
+import { v4 as uuid } from 'uuid';
 import { ITaskProps } from './task.types';
-
-const uuid = require('uuid').v4;
 
 export class Task {
   id: string;

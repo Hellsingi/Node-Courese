@@ -6,7 +6,6 @@ import { ExtendedError } from '../../logger/logger';
 import { taskValidation } from '../../middleware/errorHandler';
 
 const router = Router({ mergeParams: true });
-// const router = require('express').Router({ mergeParams: true });
 
 router.get('/', async (_req: Request, res: Response) => {
   const tasks = await tasksService.getAll();

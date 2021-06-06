@@ -1,7 +1,5 @@
-
+import { v4 as uuid } from 'uuid';
 import { IUserProps } from './user.types';
-
-const uuid = require('uuid').v4;
 
 export class User {
   id: string;

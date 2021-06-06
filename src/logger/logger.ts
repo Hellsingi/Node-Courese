@@ -1,7 +1,6 @@
 import { createLogger, format, transports } from 'winston';
 import { Request, Response } from 'express';
-
-const uuid = require('uuid').v4;
+import { v4 as uuid } from 'uuid';
 
 interface IErrorObject {
   error: Error | ExtendedError,
