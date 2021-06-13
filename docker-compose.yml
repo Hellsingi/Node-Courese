@@ -5,16 +5,25 @@ services:
     image: node_app
     restart: on-failure
     ports:
-    - ${PORT}:${DOCKER_PORT}
+      - ${PORT}:${DOCKER_PORT}
+    networks:
+      - my-network
     volumes:
       - logs:/src/logs
-  db:
-    image: "postgres:latest"
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:13.3
     restart: on-failure
+    networks:
+      - my-network
     environment:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - db-data:/src/db_data
+networks:
+  my-network:
+    driver: bridge
 volumes:
   logs:
   db-data:
