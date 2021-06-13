@@ -1,6 +1,5 @@
+import { v4 as uuid } from 'uuid';
 import { IColumnProps } from './column.types';
-
-const uuid = require('uuid').v4;
 
 export class Column {
   id: string;
@@ -10,7 +9,7 @@ export class Column {
   order: number;
 
   constructor({
-    id = uuid.v4(),
+    id = uuid(),
     title = 'Column Title',
     order = 0,
   }: IColumnProps = {}) {

@@ -1,7 +1,6 @@
+import { v4 as uuid } from 'uuid';
 import { Column } from './column.model';
 import { IBoardProps } from './board.types';
-
-const uuid = require('uuid').v4;
 
 export class Board {
   id: string;
