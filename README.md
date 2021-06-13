@@ -65,6 +65,23 @@ If you're using VSCode, you can get a better developer experience from integrati
 npm run lint
 ```
 
+# How to use Docker:
+
+## 1. Clone repository:
+
+> git clone `link`
+## 2. Use docker compose to create image and start/stop container:
+
+### Start
+
+> docker-compose up
+### Stop
+
+> docker-compose down
+## 3. If you want to re-build an image and start container:
+
+> docker-compose up --build
+
 ### Debugging in VSCode
 
 Press <kbd>F5</kbd> to debug.
