@@ -9,11 +9,14 @@ services:
       - my-network
     depends_on:
       - postgres
+    environment:
+      - POSTGRES_HOST=${POSTGRES_HOST_NAME}
     volumes:
       - .:/usr/app
       - ./log:/usr/app/log
   postgres:
     build: ./database
+    container_name: ${POSTGRES_HOST_NAME}
     restart: on-failure
     networks:
       - my-network

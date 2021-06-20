@@ -14,7 +14,6 @@ dotenv.config({
 });
 
 export const config = {
-  // name: 'my-connection',
   type: 'postgres',
   synchronize: true,
   logging: false,
@@ -23,9 +22,6 @@ export const config = {
   username: POSTGRES_USER,
   password: POSTGRES_PASSWORD,
   database: POSTGRES_DB,
-  // autoReconnect: true,
-  // reconnectTries: Number.MAX_VALUE,
-  // reconnectionInterval: 1000,
   entities: [path.join(__dirname, '../entities/*{.ts,.js}')],
   migrations: [path.join(__dirname, '/migration/**/*.ts')],
   cli: {
