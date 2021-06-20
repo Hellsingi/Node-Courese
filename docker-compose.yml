@@ -1,18 +1,19 @@
 version: '3'
 services:
-  docker-basics-nodejs:
+  node:
     build: .
     restart: on-failure
     ports:
       - ${PORT}:${PORT}
     networks:
       - my-network
-    volumes:
-      - logs:/src/logs
     depends_on:
       - postgres
+    volumes:
+      - .:/usr/app
+      - ./log:/usr/app/log
   postgres:
-    build: ./database/
+    build: ./database
     restart: on-failure
     networks:
       - my-network
@@ -23,10 +24,11 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
-      - db-data:/src/db_data
+      - ./dbdata:/var/lib/postgresql/data
 networks:
   my-network:
     driver: bridge
 volumes:
-  logs:
-  db-data:
+  dbdata:
+  node_modules:
+  log:
