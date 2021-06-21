@@ -11,7 +11,7 @@ const getById = (id: string): Promise<BoardDB | undefined> => boardsRepo.getById
 const update = (board: BoardDB, newBoard: BoardDB): Promise<BoardDB | null> => boardsRepo.updateBoard(board, newBoard);
 
 const deleteBoard = async (id: string): Promise<boolean> => {
-  tasksRepo.removeBoardTasks(id);
+  tasksRepo.deleteTaskByBordId(id);
   return boardsRepo.deleteBoard(id);
 };
 

@@ -1,6 +1,7 @@
 import { getRepository } from 'typeorm';
 import { IUserProps } from './user.types';
 import { UserDB } from '../../modelsDb/User';
+import * as tasksService from '../tasks/task.service';
 
 const getAllUsers = async (): Promise<UserDB[]> => {
   const userRepository = await getRepository(UserDB);
@@ -21,7 +22,15 @@ const getById = async (id: string): Promise<UserDB | undefined> => {
   return findUser;
 };
 
-const deleteUser = async (id: string): Promise<boolean> => !!(await getRepository(UserDB).delete(id));
+const deleteUser = async (id: string): Promise<boolean> => {
+  const userRepository = await getRepository(UserDB);
+  await tasksService.anonymizeAssignee(id);
+  const deletedUser = await userRepository.delete(id)
+  if (deletedUser.affected) {
+    return true
+  }
+  return false;
+}
 
 const updateUser = async (user: UserDB, updateInfo: Partial<IUserProps>): Promise<UserDB | null> => {
   const userRepository = await getRepository(UserDB);
