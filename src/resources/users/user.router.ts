@@ -1,31 +1,29 @@
 import express from 'express';
 import { StatusCodes } from 'http-status-codes';
-// import { User } from './user.model'
 import * as usersService from './user.service';
 import { userValidation } from '../../middleware/errorHandler';
 import { ExtendedError } from '../../logger/logger';
 import { UserDB } from '../../modelsDb/User';
 
-
 const router = express.Router();
 
-router.get('/', async (_req, res) => {
-  const users = await usersService.getAll();
-  res.json(users.map(UserDB.toResponse));
+router.get('/', async (_req, res, next) => {
+  try {
+    const users = await usersService.getAll();
+    res.json(users.map(UserDB.toResponse));
+  } catch (err) {
+    next(err);
+  }
 });
 
 router.post('/', async (req, res, next) => {
   try {
     const { name, login, password } = req.body;
     userValidation(req);
-
     const user = await usersService.save(name, login, password);
-
-    // const user = await new User(req.body);
-    // usersService.save(user);
     res.status(StatusCodes.CREATED).json(UserDB.toResponse(user));
   } catch (err) {
-    next(err)
+    next(err);
   }
 
 });
@@ -38,7 +36,7 @@ router.get('/:userId', async (req, res, next) => {
     }
     res.json(UserDB.toResponse(user));
   } catch (err) {
-    next(err)
+    next(err);
   }
 });
 
@@ -65,7 +63,7 @@ router.put('/:userId', async (req, res, next) => {
     }
     res.json(UserDB.toResponse(updateUser));
   } catch (err) {
-    next(err)
+    next(err);
   }
 });
 

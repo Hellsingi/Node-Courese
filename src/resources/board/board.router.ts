@@ -1,21 +1,27 @@
 import express from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { Board } from './board.model';
 import * as boardsService from './board.service';
 import { boardValidation } from '../../middleware/errorHandler';
 import { ExtendedError } from '../../logger/logger';
 
 const router = express.Router();
-router.route('/').get(async (_req, res) => {
-  const board = await boardsService.getAll();
-  res.status(StatusCodes.OK).json(board);
+router.route('/').get(async (_req, res, next) => {
+  try {
+    const board = await boardsService.getAll();
+    res.status(StatusCodes.OK).json(board);
+  } catch (err) {
+    next(err);
+  }
 });
 
-router.post('/', async (req, res) => {
-  boardValidation(req);
-  const board = new Board(req.body);
-  boardsService.create(board);
-  res.status(StatusCodes.CREATED).json(board);
+router.post('/', async (req, res, next) => {
+  try {
+    boardValidation(req);
+    const board =await boardsService.create(req.body);
+    res.status(StatusCodes.CREATED).json(board);
+  } catch (err) {
+    next(err);
+  }
 });
 
 router.get('/:id', async (req, res, next) => {
@@ -45,9 +51,13 @@ router.put('/:id', async (req, res, next) => {
   }
 });
 
-router.delete('/:id', async (req, res) => {
-  const deletedBoard = await boardsService.deleteBoard(req.params.id);
-  res.status(StatusCodes.NO_CONTENT).json(deletedBoard);
+router.delete('/:id', async (req, res, next) => {
+  try {
+    const deletedBoard = await boardsService.deleteBoard(req.params.id);
+    res.status(StatusCodes.NO_CONTENT).json(deletedBoard);
+  } catch (err) {
+    next(err);
+  }
 });
 
 export default router;
