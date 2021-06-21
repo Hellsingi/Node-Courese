@@ -22,9 +22,11 @@ export const config = {
   username: POSTGRES_USER,
   password: POSTGRES_PASSWORD,
   database: POSTGRES_DB,
-  entities: [path.join(__dirname, '../entities/*{.ts,.js}')],
+  entities: [path.join(__dirname, '../modelsDb/*{.ts,.js}')],
   migrations: [path.join(__dirname, '/migration/**/*.ts')],
   cli: {
     migrationsDir: 'src/migrations',
+    entitiesDir: 'src/modelsDb/*{.ts,.js}'
   },
+  migrationsRun: false
 } as ConnectionOptions;

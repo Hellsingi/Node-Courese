@@ -1,4 +1,5 @@
-version: '3'
+version: '3.5'
+
 services:
   node:
     build: .
@@ -14,6 +15,7 @@ services:
     volumes:
       - .:/usr/app
       - ./log:/usr/app/log
+
   postgres:
     build: ./database
     container_name: ${POSTGRES_HOST_NAME}
@@ -28,6 +30,23 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - ./dbdata:/var/lib/postgresql/data
+
+  rs_admin:
+    container_name: rs_db_admin_container
+    image: dpage/pgadmin4:4.21
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    volumes:
+      - ./pgadmin:/root/.pgadmin
+    ports:
+      - '61000:80'
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    networks:
+      - my-network
+
 networks:
   my-network:
     driver: bridge

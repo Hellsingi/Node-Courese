@@ -33,6 +33,7 @@
     "airbnb-typescript",
     "prettier"
   ],
+  "ignorePatterns": ["src/common/migration/*.ts"],
   "rules": {
     "import/extensions": "off",
     "node/no-missing-require": "off",
