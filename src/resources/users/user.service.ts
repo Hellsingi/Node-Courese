@@ -1,4 +1,3 @@
-
 import * as usersRepo from './user.memory.repository';
 import * as taskRepo from '../tasks/task.memory.repository';
 // import { IUserProps } from './user.types';
@@ -12,7 +11,7 @@ const save = (name: string, login: string, password: string) => usersRepo.create
 
 const getById = (id: string) => usersRepo.getById(id);
 
-const deleteUser = async (id: string) => {
+const deleteUser = (id: string): Promise<boolean> => {
   taskRepo.removeUsersTasks(id);
   return usersRepo.deleteUser(id);
 };

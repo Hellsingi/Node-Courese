@@ -42,10 +42,14 @@ router.get('/:userId', async (req, res, next) => {
   }
 });
 
-router.delete('/:userId', async (req, res) => {
-  const deletedUser = await usersService.deleteUser(req.params.userId);
-  if (!deletedUser) return;
-  res.status(StatusCodes.NO_CONTENT).json(UserDB.toResponse(deletedUser));
+router.delete('/:userId', async (req, res, next) => {
+  try {
+    const deletedUser = await usersService.deleteUser(req.params.userId);
+    if (!deletedUser) return;
+    res.status(StatusCodes.NO_CONTENT).send('The user has been deleted');
+  } catch (e) {
+    next(e);
+  }
 });
 
 router.put('/:userId', async (req, res, next) => {
