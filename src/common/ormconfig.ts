@@ -23,7 +23,7 @@ export const config = {
   password: POSTGRES_PASSWORD,
   database: POSTGRES_DB,
   entities: [path.join(__dirname, '../modelsDb/*{.ts,.js}')],
-  migrations: [path.join(__dirname, '/migration/**/*.ts')],
+  migrations: [path.join(__dirname, '../migrations/**/*.ts')],
   cli: {
     migrationsDir: 'src/migrations',
     entitiesDir: 'src/modelsDb/*{.ts,.js}'
