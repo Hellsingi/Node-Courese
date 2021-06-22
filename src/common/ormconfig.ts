@@ -15,7 +15,7 @@ dotenv.config({
 
 export const config = {
   type: 'postgres',
-  synchronize: true,
+  synchronize: false,
   logging: false,
   host: POSTGRES_HOST,
   port: POSTGRES_PORT,
@@ -28,5 +28,5 @@ export const config = {
     migrationsDir: 'src/migrations',
     entitiesDir: 'src/modelsDb/*{.ts,.js}'
   },
-  migrationsRun: false
+  migrationsRun: true
 } as ConnectionOptions;
