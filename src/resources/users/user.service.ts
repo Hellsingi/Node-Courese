@@ -1,5 +1,6 @@
 import * as usersRepo from './user.memory.repository';
 import { UserDB } from '../../modelsDb/User';
+import { IProps } from './user.types';
 
 const getAll = (): Promise<UserDB[]> => usersRepo.getAllUsers();
 
@@ -11,4 +12,6 @@ const deleteUser = (id: string): Promise<boolean> => usersRepo.deleteUser(id);
 
 const update = (user: UserDB, updateInfo: Partial<UserDB>): Promise<UserDB | null> => usersRepo.updateUser(user, updateInfo);
 
-export { getAll, save, getById, deleteUser, update };
+const getByProps = (props: IProps): Promise<UserDB | null> => usersRepo.getByProps(props);
+
+export { getAll, save, getById, deleteUser, update, getByProps };

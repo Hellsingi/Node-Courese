@@ -6,6 +6,7 @@ import YAML from 'yamljs'
 import userRouter from './resources/users/user.router';
 import boardRouter from './resources/board/board.router';
 import taskRouter from './resources/tasks/task.router';
+import loginRouter from './resources/login/login.router';
 import { httpLogger } from './middleware/http-logger';
 import { ExtendedError } from './logger/logger';
 import { errorHandlerMiddleware } from './middleware/errorHandler';
@@ -27,6 +28,7 @@ app.use('/', (req, res, next) => {
   next();
 });
 
+app.use('/login', loginRouter)
 app.use('/users', userRouter);
 app.use('/boards', boardRouter);
 app.use('/boards/:boardId/tasks', taskRouter);
