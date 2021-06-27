@@ -1,18 +1,24 @@
-version: '3'
+version: '3.5'
+
 services:
-  docker-basics-nodejs:
+  node:
     build: .
     restart: on-failure
     ports:
       - ${PORT}:${PORT}
     networks:
       - my-network
-    volumes:
-      - logs:/src/logs
     depends_on:
       - postgres
+    environment:
+      - POSTGRES_HOST=${POSTGRES_HOST_NAME}
+    volumes:
+      - .:/usr/app
+      - ./log:/usr/app/log
+
   postgres:
-    build: ./database/
+    build: ./database
+    container_name: ${POSTGRES_HOST_NAME}
     restart: on-failure
     networks:
       - my-network
@@ -23,10 +29,28 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
-      - db-data:/src/db_data
+      - ./dbdata:/var/lib/postgresql/data
+
+  rs_admin:
+    container_name: rs_db_admin_container
+    image: dpage/pgadmin4:4.21
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    volumes:
+      - ./pgadmin:/root/.pgadmin
+    ports:
+      - '61000:80'
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    networks:
+      - my-network
+
 networks:
   my-network:
     driver: bridge
 volumes:
-  logs:
-  db-data:
+  dbdata:
+  node_modules:
+  log:

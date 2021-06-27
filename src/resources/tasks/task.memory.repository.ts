@@ -1,55 +1,50 @@
-import { ITaskProps } from "./task.types";
+import { getRepository } from 'typeorm';
+import { TaskDB } from '../../modelsDb/Task';
 
-const dbTasks: ITaskProps[] = [];
+const getAll = async (): Promise<TaskDB[]> => {
+  const taskRepository = await getRepository(TaskDB);
+  const allTasks = await taskRepository.find({ where: {}, loadRelationIds: true })
+  return allTasks;
+}
 
-const getAllTasks = async () => dbTasks;
+const getById = async (id: string): Promise<TaskDB | null> => {
+  const taskRepository = await getRepository(TaskDB);
+  const findTask = await taskRepository.findOne({ where: { id }, loadRelationIds: true });
+  return findTask ?? null;
+}
 
-const createTask = async (task: ITaskProps) => dbTasks.push(task);
-
-const getById = async (id: string) => dbTasks.find((task) => task.id === id);
-
-const updateTask = async (task: ITaskProps, updateInfo: Partial<ITaskProps>): Promise<ITaskProps> => {
-  const idx = dbTasks.indexOf(task);
-  const updateTaskInfo = { ...task, ...updateInfo };
-  dbTasks.splice(idx, 1, updateTaskInfo);
-  return updateTaskInfo;
+const save = async (title: string, order: number, description: string, userId: string, boardId: string, columnId: string): Promise<TaskDB> => {
+  const taskRepository = await getRepository(TaskDB);
+  const newTask = await taskRepository.create({ title, order, description, userId, boardId, columnId })
+  await taskRepository.save(newTask);
+  return newTask;
 };
 
-const deleteTask = async (id: string) => {
-  const task = await getById(id);
-  if (!task) return false;
-  const idx = dbTasks.indexOf(task);
-  dbTasks.splice(idx, 1);
-  return true;
-};
+const update = async (id: string, title: string, order: number, description: string, userId: string, boardId: string, columnId: string): Promise<TaskDB | null> => {
+  const taskRepository = await getRepository(TaskDB);
+  const findTask = await taskRepository.findOne(id);
+  if (findTask === undefined) return null;
+  await taskRepository.update(id, { title, order, description, userId, boardId, columnId })
+  const newTask = await taskRepository.findOne(id)
+  return newTask ?? null;
+}
 
-const removeUsersTasks = async (id: string) => {
-  const usersTasks = dbTasks.filter(({ userId }) => userId === id);
-  usersTasks.forEach((task) => {
-    updateTask(task, {
-      userId: null,
-    });
-  });
+const deleteTaskById = async (id: string): Promise<boolean> => {
+  const taskRepository = await getRepository(TaskDB);
+  const deletedTask = await taskRepository.delete(id);
+  if (deletedTask.affected) {
+    return true;
+  }
+  return false;
+}
 
-  return 'Deleted';
-};
+const deleteTaskByBordId = async (boardId: string): Promise<void> => {
+  const taskRepository = await getRepository(TaskDB);
+  await taskRepository.delete({ boardId });
+}
 
-const removeBoardTasks = async (id: string) => {
-  const boardTasks = dbTasks.filter(({ boardId }) => boardId === id);
-
-  await Promise.allSettled(
-    boardTasks.map(({ id: boardId }) => deleteTask(boardId))
-  );
-
-  return 'Deleted';
-};
-
-export {
-  getAllTasks,
-  createTask,
-  getById,
-  updateTask,
-  deleteTask,
-  removeUsersTasks,
-  removeBoardTasks,
-};
+const anonymizeAssignee = async (userId: string): Promise<void> => {
+  const taskRepository = await getRepository(TaskDB);
+  await taskRepository.update({ userId }, { 'userId': null })
+}
+export { getAll, save, getById, update, deleteTaskById, deleteTaskByBordId, anonymizeAssignee };

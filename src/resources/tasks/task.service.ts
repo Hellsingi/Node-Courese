@@ -1,19 +1,18 @@
 import * as tasksRepo from './task.memory.repository';
-import { ITaskProps } from './task.types';
+import { TaskDB } from '../../modelsDb/Task';
 
-const getAll = () => tasksRepo.getAllTasks();
+const getAll = (): Promise<TaskDB[]> => tasksRepo.getAll();
 
-const create = (data: ITaskProps) => tasksRepo.createTask(data);
+const getTask = (id: string): Promise<TaskDB | null> => tasksRepo.getById(id);
 
-const getById = async (id: string) => {
-  const task = await tasksRepo.getById(id);
-  if (!task) return false;
+const save = (title: string, order: number, description: string, userId: string, boardId: string, columnId: string): Promise<TaskDB> => tasksRepo.save(title, order, description, userId, boardId, columnId);
 
-  return task;
-};
+const update = (id: string, title: string, order: number, description: string, userId: string, boardId: string, columnId: string): Promise<TaskDB | null> => tasksRepo.update(id, title, order, description, userId, boardId, columnId);
 
-const update = (task: ITaskProps, updateInfo: Partial<ITaskProps>) => tasksRepo.updateTask(task, updateInfo);
+const deleteTaskById = (id: string): Promise<boolean> => tasksRepo.deleteTaskById(id);
 
-const deleteTask = async (id: string) => tasksRepo.deleteTask(id);
+const deleteTaskByBordId = (boardId: string): Promise<void> => tasksRepo.deleteTaskByBordId(boardId);
 
-export { getAll, create, getById, update, deleteTask };
+const anonymizeAssignee = (userId: string): Promise<void> => tasksRepo.anonymizeAssignee(userId);
+
+export { getAll, getTask, save, update, deleteTaskById, deleteTaskByBordId, anonymizeAssignee };

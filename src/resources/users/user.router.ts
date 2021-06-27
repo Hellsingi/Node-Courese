@@ -1,25 +1,29 @@
 import express from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { User } from './user.model'
 import * as usersService from './user.service';
 import { userValidation } from '../../middleware/errorHandler';
 import { ExtendedError } from '../../logger/logger';
+import { UserDB } from '../../modelsDb/User';
 
 const router = express.Router();
 
-router.get('/', async (_req, res) => {
-  const users = await usersService.getAll();
-  res.json(users.map(User.toResponse));
+router.get('/', async (_req, res, next) => {
+  try {
+    const users = await usersService.getAll();
+    res.json(users.map(UserDB.toResponse));
+  } catch (err) {
+    next(err);
+  }
 });
 
 router.post('/', async (req, res, next) => {
   try {
+    const { name, login, password } = req.body;
     userValidation(req);
-    const user = await new User(req.body);
-    usersService.save(user);
-    res.status(StatusCodes.CREATED).json(User.toResponse(user));
+    const user = await usersService.save(name, login, password);
+    res.status(StatusCodes.CREATED).json(UserDB.toResponse(user));
   } catch (err) {
-    next(err)
+    next(err);
   }
 
 });
@@ -30,16 +34,20 @@ router.get('/:userId', async (req, res, next) => {
     if (!user) {
       throw new ExtendedError(StatusCodes.NOT_FOUND, "User not found.");
     }
-    res.json(User.toResponse(user));
+    res.json(UserDB.toResponse(user));
   } catch (err) {
-    next(err)
+    next(err);
   }
 });
 
-router.delete('/:userId', async (req, res) => {
-  const deletedUser = await usersService.deleteUser(req.params.userId);
-  if (!deletedUser) return;
-  res.status(StatusCodes.NO_CONTENT).json(User.toResponse(deletedUser));
+router.delete('/:userId', async (req, res, next) => {
+  try {
+    const deletedUser = await usersService.deleteUser(req.params.userId);
+    if (!deletedUser) return;
+    res.status(StatusCodes.NO_CONTENT).send('The user has been deleted');
+  } catch (e) {
+    next(e);
+  }
 });
 
 router.put('/:userId', async (req, res, next) => {
@@ -50,9 +58,12 @@ router.put('/:userId', async (req, res, next) => {
       throw new ExtendedError(StatusCodes.NOT_FOUND, "User not found.");
     }
     const updateUser = await usersService.update(user, req.body);
-    res.json(User.toResponse(updateUser));
+    if (!updateUser) {
+      throw new ExtendedError(StatusCodes.NOT_FOUND, "User not found.");
+    }
+    res.json(UserDB.toResponse(updateUser));
   } catch (err) {
-    next(err)
+    next(err);
   }
 });
 
