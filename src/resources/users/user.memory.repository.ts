@@ -41,4 +41,10 @@ const updateUser = async (user: UserDB, updateInfo: Partial<IUserProps>): Promis
   return findUser;
 };
 
-export { getAllUsers, createUser, getById, deleteUser, updateUser };
+const getByProps = async (login: string): Promise<UserDB | null> => {
+  const userRepository = await getRepository(UserDB);
+  const findUser = await userRepository.findOne({ login});
+  return findUser ?? null;
+}
+
+export { getAllUsers, createUser, getById, deleteUser, updateUser, getByProps };

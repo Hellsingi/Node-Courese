@@ -6,9 +6,11 @@ import YAML from 'yamljs'
 import userRouter from './resources/users/user.router';
 import boardRouter from './resources/board/board.router';
 import taskRouter from './resources/tasks/task.router';
+import loginRouter from './resources/login/login.router';
 import { httpLogger } from './middleware/http-logger';
 import { ExtendedError } from './logger/logger';
 import { errorHandlerMiddleware } from './middleware/errorHandler';
+import { checkToken } from "./validate/validate-session";
 
 const app = express();
 const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
@@ -27,9 +29,10 @@ app.use('/', (req, res, next) => {
   next();
 });
 
-app.use('/users', userRouter);
-app.use('/boards', boardRouter);
-app.use('/boards/:boardId/tasks', taskRouter);
+app.use('/login', loginRouter)
+app.use('/users', checkToken, userRouter);
+app.use('/boards', checkToken, boardRouter);
+app.use('/boards/:boardId/tasks', checkToken, taskRouter);
 
 
 app.use((err: Error | ExtendedError, _req: Request, res: Response, next: NextFunction) => {
