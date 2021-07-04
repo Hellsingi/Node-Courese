@@ -4,8 +4,3 @@ export interface IUserProps {
   login: string;
   password: string;
 }
-
-export interface IProps {
-  login: string,
-  password: string
-}

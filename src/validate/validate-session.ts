@@ -9,7 +9,7 @@ interface IDecodeData {
 }
 
 export const checkToken = async (req: Request, res: Response, next: NextFunction) => {
-  const authorizationToken = req.header('Authorization');
+  const authorizationToken = req.headers.authorization;
 
   if (authorizationToken) {
     const [type, token] = authorizationToken.split(' ');

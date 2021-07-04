@@ -1,5 +1,5 @@
 import { getRepository } from 'typeorm';
-import { IUserProps, IProps } from './user.types';
+import { IUserProps } from './user.types';
 import { UserDB } from '../../modelsDb/User';
 import * as tasksService from '../tasks/task.service';
 
@@ -41,9 +41,9 @@ const updateUser = async (user: UserDB, updateInfo: Partial<IUserProps>): Promis
   return findUser;
 };
 
-const getByProps = async (props: IProps): Promise<UserDB | null> => {
+const getByProps = async (login: string): Promise<UserDB | null> => {
   const userRepository = await getRepository(UserDB);
-  const findUser = await userRepository.findOne({ login: props.login, password: props.password });
+  const findUser = await userRepository.findOne({ login});
   return findUser ?? null;
 }
 
