@@ -1,21 +1,22 @@
-import { v4 as uuid } from 'uuid';
-import { Column } from './column.model';
-import { IBoardProps } from './board.types';
+import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
+import { Guard } from '../../middlewares/login.guard';
+import { BoardController } from './board.controller';
+import { BoardService } from './board.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import Board from '../../entity/board.entity';
+import TaskColumn from '../../entity/column.entity';
 
-export class Board {
-  id: string;
-
-  title: string;
-
-  columns: Column[];
-
-  constructor({
-    id = uuid(),
-    title = 'test',
-    columns = [new Column()],
-  }: IBoardProps = {}) {
-    this.id = id;
-    this.title = title;
-    this.columns = columns;
+@Module({
+  imports: [
+    TypeOrmModule.forFeature([TaskColumn]),
+    TypeOrmModule.forFeature([Board])],
+  controllers: [BoardController],
+  providers: [BoardService],
+})
+export class boardModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(Guard)
+      .forRoutes('boards');
   }
 }

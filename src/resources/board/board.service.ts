@@ -1,18 +1,17 @@
-import * as boardsRepo from './board.memory.repository';
-import * as tasksRepo from '../tasks/task.memory.repository';
-import { BoardDB } from '../../modelsDb/Board';
+import boardsRepo from './board.memory.repository';
+import Board from '../../entity/board.entity';
 
-const getAll = (): Promise<BoardDB[]> => boardsRepo.getAllBoards();
+import { Injectable } from '@nestjs/common';
 
-const create = (board: BoardDB): Promise<BoardDB> => boardsRepo.createBoard(board);
+@Injectable()
+export class BoardService {
+  getAll = ():Promise<Board[]> => boardsRepo.getAll();
 
-const getById = (id: string): Promise<BoardDB | undefined> => boardsRepo.getById(id);
+  createBoard = (board: Board):Promise<Board> => boardsRepo.createBoard(board);
 
-const update = (board: BoardDB, newBoard: BoardDB): Promise<BoardDB | null> => boardsRepo.updateBoard(board, newBoard);
+  getById = (id: number):Promise<number | Board | undefined> => boardsRepo.getById(id);
 
-const deleteBoard = async (id: string): Promise<boolean> => {
-  tasksRepo.deleteTaskByBordId(id);
-  return boardsRepo.deleteBoard(id);
-};
+  putById = (newBoard: Board, id: number):Promise<Board | undefined> => boardsRepo.putById(newBoard, id);
 
-export { getAll, create, getById, update, deleteBoard };
+  deleteById = (id:number):Promise<number> => boardsRepo.deleteById(id);
+}
