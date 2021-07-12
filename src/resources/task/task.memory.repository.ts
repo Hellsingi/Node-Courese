@@ -42,7 +42,7 @@ const deleteUser = async (id: number): Promise<void> => {
   const tasks = await taskRepository.find();
   tasks.map(async (task) => {
     if (task.userId === id.toString()) {
-      await taskRepository.update(Number(task.id), { userId: null });
+      await taskRepository.update(Number(task.id),{  userId: null });
     }
   });
 };

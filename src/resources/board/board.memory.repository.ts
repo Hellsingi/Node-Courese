@@ -1,4 +1,4 @@
-import TaskRepository from '../task/task.memory.repository';
+import  TaskRepository from '../task/task.memory.repository';
 import Board from '../../entity/board.entity';
 import { getRepository } from 'typeorm';
 import TaskColumn from '../../entity/column.entity';
@@ -18,7 +18,7 @@ const createBoard = async (board: Board): Promise<Board> => {
 
 const getById = async (id: number): Promise<number | Board | undefined> => {
   const boardRepository = getRepository(Board);
-  return boardRepository.findOne(id, { relations: ["columns"] });
+  return boardRepository.findOne(id,{ relations: ["columns"] });
 };
 
 const putById = async (newBoard: Board, id: number): Promise<Board | undefined> => {
@@ -26,7 +26,7 @@ const putById = async (newBoard: Board, id: number): Promise<Board | undefined> 
   const columnRepository = getRepository(TaskColumn);
   const oldBoard = await boardRepository.findOne(id, { relations: ["columns"] });
   const { columns = [], title } = newBoard;
-  const deleteResults = oldBoard?.columns?.map((col) => columnRepository.delete(Number(col.id)));
+  const deleteResults = oldBoard?.columns?.map((col) =>  columnRepository.delete(Number(col.id)));
   if (deleteResults) {
     await Promise.all(deleteResults);
   }
@@ -34,7 +34,7 @@ const putById = async (newBoard: Board, id: number): Promise<Board | undefined> 
   if (title) {
     const board = await boardRepository.findOne(id);
     if (board) {
-      await boardRepository.update(id, { title });
+      await boardRepository.update(id, {title});
     }
   }
   const board = await boardRepository.findOne(id);
@@ -59,3 +59,4 @@ const deleteById = async (id: number): Promise<number> => {
 };
 
 export default { getAll, createBoard, getById, putById, deleteById };
+

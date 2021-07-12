@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import Board from '../../entity/board.entity';
 import TaskColumn from '../../entity/column.entity';
 
+
 @Module({
   imports: [
     TypeOrmModule.forFeature([TaskColumn]),
