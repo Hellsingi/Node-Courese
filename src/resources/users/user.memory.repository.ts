@@ -1,50 +1,50 @@
+import User from '../../entity/user.entity';
 import { getRepository } from 'typeorm';
-import { IUserProps } from './user.types';
-import { UserDB } from '../../modelsDb/User';
-import * as tasksService from '../tasks/task.service';
+import TaskRepository from '../task/task.memory.repository';
 
-const getAllUsers = async (): Promise<UserDB[]> => {
-  const userRepository = await getRepository(UserDB);
-  const allUsers = await userRepository.find();
-  return allUsers;
+
+const getAll = async (): Promise<User[]> => {
+  const userRepository = getRepository(User);
+  return userRepository.find();
 };
 
-const createUser = async (name: string, login: string, password: string): Promise<UserDB> => {
-  const userRepository = await getRepository(UserDB);
-  const newUser = await userRepository.create({ name, login, password });
-  const savedUser = await userRepository.save(newUser);
-  return savedUser;
+const createAdmin = async (user: User): Promise<User | number> => {
+  const userRepository = getRepository(User);
+  const exist = await userRepository.findOne({ login: 'admin' });
+  if (exist) return 204
+  const newUser = userRepository.create(user);
+  return await userRepository.save(newUser);
 };
 
-const getById = async (id: string): Promise<UserDB | undefined> => {
-  const userRepository = await getRepository(UserDB);
-  const findUser = await userRepository.findOne(id);
-  return findUser;
+const createUser = async (user: User): Promise<User | number> => {
+  const userRepository = getRepository(User);
+  const newUser = userRepository.create(user);
+  return await userRepository.save(newUser);
 };
 
-const deleteUser = async (id: string): Promise<boolean> => {
-  const userRepository = await getRepository(UserDB);
-  await tasksService.anonymizeAssignee(id);
-  const deletedUser = await userRepository.delete(id)
-  if (deletedUser.affected) {
-    return true
+
+const getById = async (id: number): Promise<User | undefined> => {
+  const userRepository = getRepository(User);
+  return userRepository.findOne(id);
+};
+
+
+const putById = async (newUser: User, id: number): Promise<User | undefined> => {
+  const userRepository = getRepository(User);
+  await userRepository.update(id, newUser);
+  return newUser;
+};
+
+
+const deleteById = async (id: number): Promise<number> => {
+  const userRepository = getRepository(User);
+  const user = await userRepository.findOne(id);
+  if (user) {
+    await TaskRepository.deleteUser(id);
+    await userRepository.delete(id);
+    return 204;
   }
-  return false;
-}
-
-const updateUser = async (user: UserDB, updateInfo: Partial<IUserProps>): Promise<UserDB | null> => {
-  const userRepository = await getRepository(UserDB);
-  const findUser = await userRepository.findOne(user.id);
-  if (findUser === undefined) return null;
-  if (user.id === undefined) return null;
-  await userRepository.update(user.id, { ...updateInfo });
-  return findUser;
+  return 404;
 };
 
-const getByProps = async (login: string): Promise<UserDB | null> => {
-  const userRepository = await getRepository(UserDB);
-  const findUser = await userRepository.findOne({ login});
-  return findUser ?? null;
-}
-
-export { getAllUsers, createUser, getById, deleteUser, updateUser, getByProps };
+export default { getAll, createUser, getById, putById, deleteById, createAdmin };
