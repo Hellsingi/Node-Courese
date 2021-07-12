@@ -1,18 +1,20 @@
-import * as tasksRepo from './task.memory.repository';
-import { TaskDB } from '../../modelsDb/Task';
+import tasksRepo from './task.memory.repository';
+import Task from '../../entity/task.entity';
+import { Injectable } from '@nestjs/common';
 
-const getAll = (): Promise<TaskDB[]> => tasksRepo.getAll();
+@Injectable()
+export class TaskService {
+  getAll = (): Promise<Task[]> => tasksRepo.getAll();
 
-const getTask = (id: string): Promise<TaskDB | null> => tasksRepo.getById(id);
+  createTask = (task: Task): Promise<Task> => tasksRepo.createTask(task);
 
-const save = (title: string, order: number, description: string, userId: string, boardId: string, columnId: string): Promise<TaskDB> => tasksRepo.save(title, order, description, userId, boardId, columnId);
+  getById = (id: number): Promise<number | Task | undefined> => tasksRepo.getById(id);
 
-const update = (id: string, title: string, order: number, description: string, userId: string, boardId: string, columnId: string): Promise<TaskDB | null> => tasksRepo.update(id, title, order, description, userId, boardId, columnId);
+  putById = (newTask: Task, id: number): Promise<Task | undefined> => tasksRepo.putById(newTask, id);
 
-const deleteTaskById = (id: string): Promise<boolean> => tasksRepo.deleteTaskById(id);
+  deleteById = (id: number): Promise<number> => tasksRepo.deleteById(id);
 
-const deleteTaskByBordId = (boardId: string): Promise<void> => tasksRepo.deleteTaskByBordId(boardId);
+  public deleteUser = (id: number): Promise<void> => tasksRepo.deleteUser(id);
 
-const anonymizeAssignee = (userId: string): Promise<void> => tasksRepo.anonymizeAssignee(userId);
-
-export { getAll, getTask, save, update, deleteTaskById, deleteTaskByBordId, anonymizeAssignee };
+  public deleteBoard = (id: number): Promise<void> => tasksRepo.deleteBoard(id);
+}
