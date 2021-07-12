@@ -1,16 +1,20 @@
-import * as usersRepo from './user.memory.repository';
-import { UserDB } from '../../modelsDb/User';
+import User from '../../entity/user.entity';
 
-const getAll = (): Promise<UserDB[]> => usersRepo.getAllUsers();
+import usersRepo from './user.memory.repository';
+import { Injectable } from '@nestjs/common';
 
-const save = (name: string, login: string, password: string): Promise<UserDB> => usersRepo.createUser(name, login, password);
+@Injectable()
+export class UserService {
+  getAll = (): Promise<User[]> => usersRepo.getAll();
 
-const getById = (id: string): Promise<UserDB | undefined> => usersRepo.getById(id);
+  createUser = (user: User): Promise<User | number> => usersRepo.createUser(user);
 
-const deleteUser = (id: string): Promise<boolean> => usersRepo.deleteUser(id);
+  createAdmin = (user: User): Promise<User | number> => usersRepo.createAdmin(user);
 
-const update = (user: UserDB, updateInfo: Partial<UserDB>): Promise<UserDB | null> => usersRepo.updateUser(user, updateInfo);
+  getById = (id: number): Promise<User | undefined> => usersRepo.getById(id);
 
-const getByProps = (login: string): Promise<UserDB | null> => usersRepo.getByProps(login);
+  putById = (newUser: User, id: number): Promise<User | undefined> => usersRepo.putById(newUser, id);
 
-export { getAll, save, getById, deleteUser, update, getByProps };
+  deleteById = (id: number): Promise<number> => usersRepo.deleteById(id);
+}
+
