@@ -88,24 +88,10 @@ Press <kbd>F5</kbd> to debug.
 
 For more information, visit: https://code.visualstudio.com/docs/editor/debugging
 
-# How to start Docker with migration typeorm:
-
-### Start
-> docker-compose up --build
-
-### Create migration
-> npm run migration:generate
-
-### Run migration
-> npm run migration:run
-
-### Stop container
-> Cmd + C
-
-### Start container
-> docker-compose up --build
-
-### Run test
-> npm run test
+# GUIDE to RUN application
+- To run application
+  - ``docker compose up``
+- To test application
+  - ``npm run test:auth``
 
 

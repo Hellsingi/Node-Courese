@@ -2,32 +2,33 @@ version: '3.5'
 
 services:
   node:
-    build: .
+    build:
+      context: .
     restart: on-failure
     ports:
       - ${PORT}:${PORT}
-    networks:
-      - my-network
     depends_on:
       - postgres
     environment:
-      - POSTGRES_HOST=${POSTGRES_HOST_NAME}
+      - PORT=4000
     volumes:
-      - .:/usr/app
-      - ./log:/usr/app/log
-
+      - ./src:/usr/app/src
+      - ./combined.log:/usr/app/combined.log
+      - ./error.log:/usr/app/error.log
+    networks:
+      - my-network
   postgres:
     build: ./database
-    container_name: ${POSTGRES_HOST_NAME}
     restart: on-failure
     networks:
       - my-network
     ports:
       - ${POSTGRES_PORT}:${POSTGRES_PORT}
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
       - ./dbdata:/var/lib/postgresql/data
 
